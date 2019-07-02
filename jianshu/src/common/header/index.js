@@ -1,9 +1,34 @@
 import React from 'react';
 // import style from './header.module.scss';
 import './header.scss';
-import { HeaderWraper, Logo } from './style'
+import { HeaderWraper, Logo, SearchInfo } from './style'
 import { connect } from 'react-redux'
 import { actionCreators } from './store'
+
+const getList = (show) => {
+  if (show) {
+    return (
+      <SearchInfo>
+        <div className='hottitle'>
+          <span >热门搜索</span>
+          <span>换一批</span>
+        </div>
+        <div>
+          <a className='aclass'>教育</a>
+          <a className='aclass'>教育</a>
+          <a className='aclass'>教育</a>
+          <a className='aclass'>教育</a>
+          <a className='aclass'>教育</a>
+          <a className='aclass'>教育</a>
+          <a className='aclass'>教育</a>
+        </div>
+      </SearchInfo>
+    )
+  } else {
+    return null
+  }
+}
+
 
 const Header = (props) => {
   return (
@@ -20,6 +45,7 @@ const Header = (props) => {
             onBlur={props.inputBlur}
           />
           <span className="iconfont fdj">&#xe62d;</span>
+          {getList(props.focus)}
         </div>
         <div className='nav_right color96'>登录</div>
         <div className='nav_right'>Aa</div>
@@ -28,8 +54,6 @@ const Header = (props) => {
         <button className='xwz_class'><span className="iconfont">&#xe60e;</span>写文章</button>
         <button className='zc_class'>注册</button>
       </div>
-
-
     </HeaderWraper>
   )
 }
@@ -76,7 +100,8 @@ const Header = (props) => {
 //将state里面的数据 映射到props
 const mapStateToProps = (state) => {
   return {
-    focus: state.header.focus
+    // focus: state.get('header').get('focus')
+    focus: state.getIn(['header', 'focus'])
   }
 }
 
