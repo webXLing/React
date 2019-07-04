@@ -22,13 +22,11 @@ export const Logo = styled.a.attrs({
 `
 
 export const SearchInfo = styled.div`
-  height:56px;
   border-bottom:1px solid #f0f0f0;
   position:absolute;
   left:0;
   top:56px;
   padding 20px;
-  height:100px;
   box-shadow: 0 0 8px rgba(0,0,0,.2);
   background-color: #fff;
   width:240px;
