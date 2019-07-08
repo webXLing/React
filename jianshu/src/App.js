@@ -1,9 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'
+import { Provider } from 'react-redux'
 import './App.scss'
 import Header from './common/header'
+import Home from './pages/home'
+import Detail from './pages/detail'
+
+
 import store from './store'
-import { Provider } from 'react-redux'
 
 class App extends React.Component {
   render () {
@@ -13,8 +17,9 @@ class App extends React.Component {
           <Header></Header>
           <BrowserRouter>
             <div>
-              <Route path='/' exact render={() => <div>根目录</div>}></Route>
-              <Route path='/detail' render={() => <div>detail目录</div>}></Route>
+              {/* <Route path='/' exact render={() => <div>根目录</div>}></Route> */}
+              <Route path='/detail' exact component={Detail}></Route>
+              <Route path='/' exact component={Home}></Route>
             </div>
           </BrowserRouter>
         </div>
