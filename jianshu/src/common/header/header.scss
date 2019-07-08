@@ -121,3 +121,15 @@ input{
   border-radius: 3px;
   margin-top: 10px;
 }
+
+.rotate{
+  transform: rotateX(0deg);  
+  transition: all .3s ease-in-out;
+  transform-origin: center center;
+  display: block;
+  transform-origin: center center;
+  float: left;
+}
+.hyp{
+  cursor: pointer;
+}

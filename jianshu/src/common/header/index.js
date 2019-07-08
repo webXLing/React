@@ -4,6 +4,7 @@ import './header.scss';
 import { HeaderWraper, Logo, SearchInfo } from './style'
 import { connect } from 'react-redux'
 import { actionCreators } from './store'
+// import Axios from 'axios'
 
 // const getList = (show) => {
 //   if (show) {
@@ -56,7 +57,7 @@ import { actionCreators } from './store'
 // }
 class Header extends React.Component {
   render () {
-    const { focus, inputFocus, inputBlur } = this.props
+    const { focus, inputFocus, inputBlur, inputList } = this.props
     return (
       <HeaderWraper>
         <Logo />
@@ -67,7 +68,7 @@ class Header extends React.Component {
             <input
               placeholder='搜索'
               className={focus ? "top_input focus" : "top_input"}
-              onFocus={inputFocus}
+              onFocus={() => inputFocus(inputList)}
               onBlur={inputBlur}
             />
             <span className="iconfont fdj">&#xe62d;</span>
@@ -111,14 +112,12 @@ class Header extends React.Component {
         <SearchInfo onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <div className='hottitle'>
             <span >热门搜索</span>
-            <span onClick={() => { changePage(page, totalPage) }}>换一批</span>
+            <div className='hyp'>
+              <span ref={(e) => { this.spinIcon = e }} className="iconfont rotate">&#xe602;</span>
+              <span onClick={() => { changePage(page, totalPage, this.spinIcon) }}>换一批</span>
+            </div>
           </div>
           <div>
-            {/* {
-              inputList.map((item, index) => {
-                return <a className='aclass' href='/#' key={index}>{item}</a>
-              })
-            } */}
             {pageList}
           </div>
         </SearchInfo>
@@ -126,6 +125,38 @@ class Header extends React.Component {
     } else {
       return null
     }
+  }
+
+  // componentDidMount () {
+  //   Axios('/api/headerList.json')
+  //     .then(res => {
+  //       console.log(res, 'headerList')
+  //       if (res.data.code === 9000) {
+  //         const data = res.data.data
+  //         return Axios('/api/data1.json')
+  //       }
+  //     })
+  //     .then(res => {
+  //       if(res === void 0){
+  //         console.log(res)
+  //         console.log(res.data)
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error)
+  //     })
+  //   // console.log('componentDidMount')
+  // }
+  async componentDidMount () {
+    // console.log(1)
+    // let res1 = await Axios('/api/headerList.json')
+    // console.log(2)
+    // console.log(res1, 'res1')
+    // if (res1.data.code === 1000) {
+    //   let res2 = await Axios('/api/data1.json')
+    //   console.log(res2, 'res2')
+    // }
+    // console.log(3)
   }
 
 }
@@ -143,8 +174,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    inputFocus () {
-      dispatch(actionCreators.getList())
+    inputFocus (list) {
+      list.size === 0 && dispatch(actionCreators.getList())
+
       dispatch(actionCreators.searchFocus())
     },
     inputBlur () {
@@ -156,7 +188,14 @@ const mapDispatchToProps = (dispatch) => {
     handleMouseLeave () {
       dispatch(actionCreators.MouseChange(false))
     },
-    changePage (page, totalPage) {
+    changePage (page, totalPage, spinIcon) {
+      let origionAngle = spinIcon.style.transform.replace(/[^0-9]/gi, '')
+      if (origionAngle) {
+        origionAngle = parseInt(origionAngle, 10)
+      } else {
+        origionAngle = 0
+      }
+      spinIcon.style.transform = `rotate(${origionAngle + 360}deg)`
       if (page < totalPage - 1) {
         dispatch(actionCreators.changePageAc(page + 1))
       } else {
