@@ -2,6 +2,10 @@ import React from 'react';
 import './style.scss';
 import Topic from './components/Topic'
 import List from './components/List'
+import Recommend from './components/Recommend'
+// import Axios from 'axios'
+import { connect } from 'react-redux'
+import { actionCreators } from './store'
 
 class Home extends React.Component {
   render () {
@@ -12,10 +16,29 @@ class Home extends React.Component {
           <Topic />
           <List />
         </div>
-        <div className='right_box'>right_box</div>
+        <div className='right_box'>
+
+          <Recommend />
+        </div>
       </div>
     )
   }
+
+  componentDidMount () {
+    this.props.changeList()
+
+  }
 }
 
-export default Home
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeList () {
+      console.log(11)
+      // list.size === 0 && dispatch(actionCreators.getList())
+      const action = actionCreators.homeDataAction()
+      dispatch(action)
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Home)
